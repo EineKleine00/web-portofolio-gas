@@ -6,7 +6,7 @@
 
 Sebuah website portofolio pribadi yang dibangun di atas ekosistem **Google Apps Script (GAS)**. Proyek ini mendemonstrasikan kemampuan *Server-side Templating* sederhana untuk merender halaman web statis yang responsif, modern, dan memiliki performa tinggi tanpa biaya hosting (Serverless).
 
-🔗 **Live Demo:** [Masukkan Link Deployment Web App Kamu Di Sini]
+🔗 **Live Demo:** [(https://script.google.com/macros/s/AKfycbxmm2YaERk0s_YSIluYkzUW7sSxIKfA4XfqYllsp5Ygjmv7Oz-N1d611RJj0tkcjvU/exec)]
 
 ---
 
