@@ -1,0 +1,140 @@
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --bg: #f3f4f6;
+    --white: #ffffff;
+    --text: #1f2937;
+    --text-muted: #6b7280;
+    --border: #e5e7eb;
+    --success-bg: #dcfce7; --success-text: #166534;
+    --warning-bg: #fef9c3; --warning-text: #854d0e;
+    --danger-bg: #fee2e2; --danger-text: #991b1b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 700px;
+  }
+
+  /* --- CARDS --- */
+  .card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: 1px solid var(--white);
+  }
+
+  .text-center { text-align: center; }
+
+  /* --- LOGIN --- */
+  .icon-bg {
+    width: 60px; height: 60px;
+    background: #eff6ff;
+    color: var(--primary);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    margin: 0 auto 15px;
+  }
+  .card-header h2 { font-size: 1.5rem; margin-bottom: 5px; }
+  .card-header p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; }
+
+  /* --- FORMS --- */
+  .form-group { margin-bottom: 20px; }
+  .form-group label {
+    display: block; font-size: 0.85rem; font-weight: 500;
+    margin-bottom: 8px; color: var(--text);
+  }
+  
+  .input-icon { position: relative; }
+  .input-icon i {
+    position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+    color: var(--text-muted);
+  }
+  
+  input, select, textarea {
+    width: 100%; padding: 12px 15px;
+    border: 1px solid var(--border); border-radius: 10px;
+    font-family: inherit; font-size: 0.95rem;
+    transition: 0.3s;
+  }
+  .input-icon input { padding-left: 45px; }
+  
+  input:focus, select:focus, textarea:focus {
+    outline: none; border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  textarea { min-height: 100px; resize: vertical; }
+
+  /* --- BUTTONS --- */
+  button {
+    width: 100%; padding: 12px;
+    border: none; border-radius: 10px;
+    font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: 0.3s;
+    display: flex; justify-content: center; align-items: center; gap: 8px;
+  }
+  
+  #btnLogin, .btn-primary { background: var(--primary); color: white; }
+  #btnLogin:hover, .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+  
+  .btn-logout {
+    background: transparent; color: #ef4444; 
+    border: 1px solid #fee2e2; width: auto; padding: 8px 15px; font-size: 0.85rem;
+  }
+  .btn-logout:hover { background: #fee2e2; }
+
+  /* --- APP HEADER --- */
+  .profile-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px;
+  }
+  .badge-prodi {
+    background: #e0e7ff; color: var(--primary);
+    padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+  }
+
+  /* --- TABLE --- */
+  .table-responsive { overflow-x: auto; }
+  .custom-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
+  .custom-table th {
+    text-align: left; padding: 12px;
+    background: #f9fafb; color: var(--text-muted); font-weight: 600;
+    border-bottom: 2px solid var(--border);
+  }
+  .custom-table td { padding: 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+  
+  /* Status Badges */
+  .status { padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600; }
+  .status-pending { background: var(--warning-bg); color: var(--warning-text); }
+  .status-approved, .status-disetujui { background: var(--success-bg); color: var(--success-text); }
+  .status-rejected, .status-ditolak { background: var(--danger-bg); color: var(--danger-text); }
+
+  /* --- ANIMATION --- */
+  .loader {
+    width: 18px; height: 18px;
+    border: 2px solid #FFF; border-bottom-color: transparent;
+    border-radius: 50%; display: none;
+    animation: rotation 1s linear infinite;
+  }
+  @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  
+  .fade-in { animation: fadeIn 0.5s ease-in-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+</style>
