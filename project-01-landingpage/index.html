@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portofolio | EineKleine</title>
+  <?!= include('style'); ?>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav>
+    <div class="logo">./Dev <span>EineKleine</span></div>
+    <ul class="nav-links">
+      <li><a href="#about">Tentang</a></li>
+      <li><a href="#skills">Tech Stack</a></li>
+      <li><a href="#projects">Portofolio</a></li>
+      <li><a href="https://github.com/einekleine00" target="_blank">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-text">
+      <span class="badge">Mahasiswa Informatika Smt 8 @ AAS Indonesia</span>
+      
+      <h1>Backend Developer & <br><span class="highlight">Laravel Enthusiast.</span></h1>
+      
+      <p>
+        Halo! Saya <strong>EineKleine</strong>. Pengembang web yang fokus pada ekosistem <strong>PHP & Laravel</strong>. 
+        Saat ini sedang mendalami integrasi AI (Gemini API) dan bercita-cita berkarir remote di perusahaan Jepang. 
+        <em>(Sambil mendengarkan Yorushika 🎧).</em>
+      </p>
+      
+      <div class="cta">
+        <a href="#projects" class="btn-main">Lihat Project Saya</a>
+        <a href="#contact" class="btn-outline">Hubungi Saya</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="skills" class="skills">
+    <h3>Tech Stack & Tools</h3>
+    <p class="section-desc">Teknologi yang saya gunakan untuk membangun solusi digital:</p>
+    
+    <div class="skill-grid">
+      <div class="skill-card primary">Laravel 10/11</div>
+      <div class="skill-card primary">PHP Native</div>
+      <div class="skill-card primary">MySQL</div>
+      
+      <div class="skill-card secondary">Python (Selenium)</div>
+      <div class="skill-card secondary">Gemini API</div>
+      
+      <div class="skill-card">Bootstrap/Tailwind</div>
+      <div class="skill-card">Git / GitHub</div>
+      <div class="skill-card">IoT (ESP32)</div>
+    </div>
+  </section>
+
+  <section id="projects" class="projects">
+    <h3>Project Unggulan</h3>
+    <div class="project-grid">
+      
+      <div class="project-card">
+        <h4>Event Management System</h4>
+        <span class="tag">Laravel 10</span> <span class="tag">TDD</span>
+        <p>Aplikasi manajemen acara lengkap dengan fitur CRUD, validasi tiket, dan Role Admin/User. Dikembangkan menggunakan metode TDD (Test Driven Development).</p>
+      </div>
+
+      <div class="project-card">
+        <h4>Sistem Administrasi Desa</h4>
+        <span class="tag">Laravel 11</span> <span class="tag">MySQL</span>
+        <p>Sistem korespondensi surat-menyurat digital untuk administrasi desa, mempermudah arsip dan pelayanan warga.</p>
+      </div>
+
+      <div class="project-card">
+        <h4>Perpustakaan Digital</h4>
+        <span class="tag">Native PHP</span> <span class="tag">MySQL</span>
+        <p>Sistem manajemen peminjaman buku perpustakaan yang dibangun dari nol menggunakan PHP Native untuk memahami konsep dasar MVC.</p>
+      </div>
+
+       <div class="project-card">
+        <h4>File Downloader Automation</h4>
+        <span class="tag">Python</span> <span class="tag">Selenium</span>
+        <p>Script otomatisasi untuk mengunduh file dari berbagai hosting (Mirrored/Kraken) secara efisien.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 EineKleine. Menuju JLPT N3/N4 🇯🇵.</p>
+  </footer>
+
+  <?!= include('script'); ?>
+</body>
+</html>
