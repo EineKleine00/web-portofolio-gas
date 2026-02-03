@@ -1,0 +1,192 @@
+<script>
+// --- KONFIGURASI TOMBOL LOADING ---
+function setLoading(btnId, isLoading) {
+  const btn = document.getElementById(btnId);
+  const span = btn.querySelector('span'); // Text tombol (jika ada)
+  const loader = btn.querySelector('.loader'); // Spinner (jika ada)
+  
+  if (isLoading) {
+    btn.disabled = true;
+    if(loader) loader.style.display = 'inline-block';
+  } else {
+    btn.disabled = false;
+    if(loader) loader.style.display = 'none';
+  }
+}
+
+// --- LOGIN SYSTEM ---
+function login() {
+  const nim = document.getElementById('nim').value;
+  if(!nim) {
+    Swal.fire('Error', 'NIM tidak boleh kosong!', 'warning');
+    return;
+  }
+
+  setLoading('btnLogin', true);
+
+  google.script.run
+    .withSuccessHandler(handleLogin)
+    .withFailureHandler(err => {
+       setLoading('btnLogin', false);
+       Swal.fire('Error System', err.message, 'error');
+    })
+    .login(nim);
+}
+
+function handleLogin(res) {
+  setLoading('btnLogin', false);
+  
+  if (res.status === 'success') {
+    // Simpan data di Session Storage
+    sessionStorage.setItem('nim', res.nim);
+    sessionStorage.setItem('nama', res.nama);
+    sessionStorage.setItem('prodi', res.prodi);
+    
+    updateUI(true);
+    
+    // Notifikasi Sukses
+    const Toast = Swal.mixin({
+      toast: true, position: 'top-end', showConfirmButton: false, timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    });
+    Toast.fire({ icon: 'success', title: 'Berhasil Masuk' });
+    
+  } else {
+    Swal.fire('Gagal Masuk', res.message, 'error');
+  }
+}
+
+// --- ABSENSI SYSTEM ---
+function submitAbsensi() {
+  const makul = document.getElementById('makul').value;
+  const status = document.getElementById('status').value;
+  
+  if(!makul) {
+    Swal.fire('Perhatian', 'Nama Mata Kuliah harus diisi!', 'warning');
+    return;
+  }
+
+  // Konfirmasi sebelum kirim
+  Swal.fire({
+    title: 'Kirim Absensi?',
+    text: `Matkul: ${makul} | Status: ${status}`,
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Ya, Kirim!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      
+      const data = {
+        nim: sessionStorage.getItem('nim'),
+        makul: makul,
+        status: status
+      };
+
+      google.script.run
+        .withSuccessHandler(res => {
+          if(res.status === 'success') {
+            Swal.fire('Berhasil!', res.message, 'success');
+            document.getElementById('makul').value = ''; // Reset input
+            loadAbsensi(); // Refresh tabel
+          } else {
+            Swal.fire('Gagal', res.message, 'error');
+          }
+        })
+        .submitAbsensi(data);
+    }
+  });
+}
+
+// --- LOAD DATA TABLE ---
+function loadAbsensi() {
+  const tbody = document.getElementById('absensiBody');
+  tbody.innerHTML = '<tr><td colspan="4" class="text-center">Mengambil data terbaru...</td></tr>';
+
+  google.script.run
+    .withSuccessHandler(renderTable)
+    .getAbsensiList();
+}
+
+function renderTable(data) {
+  const tbody = document.getElementById('absensiBody');
+  tbody.innerHTML = '';
+  
+  if (data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" class="text-center">Belum ada riwayat absensi.</td></tr>';
+    return;
+  }
+  
+  data.forEach(r => {
+    // Tentukan warna badge berdasarkan status
+    let badgeClass = 'bg-hadir';
+    if(r.status === 'Izin') badgeClass = 'bg-izin';
+    if(r.status === 'Sakit') badgeClass = 'bg-sakit';
+
+    tbody.innerHTML += `
+      <tr>
+        <td>${r.jam}</td>
+        <td>${r.nama}</td>
+        <td>${r.makul}</td>
+        <td><span class="badge ${badgeClass}">${r.status}</span></td>
+      </tr>
+    `;
+  });
+}
+
+// --- UTILS (LOGOUT & UI) ---
+function logout() {
+  Swal.fire({
+    title: 'Keluar?',
+    text: "Anda harus login ulang nanti.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#EF4444',
+    confirmButtonText: 'Ya, Keluar'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      sessionStorage.clear();
+      updateUI(false);
+    }
+  });
+}
+
+function updateUI(isLoggedIn) {
+  const loginSec = document.getElementById('loginSection');
+  const absenSec = document.getElementById('absensiSection');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  if (isLoggedIn) {
+    // Set Nama & Prodi di Dashboard
+    document.getElementById('namaMhs').innerText = sessionStorage.getItem('nama');
+    document.getElementById('nimMhs').innerText = sessionStorage.getItem('nim');
+    document.getElementById('prodiMhs').innerText = sessionStorage.getItem('prodi');
+
+    loginSec.style.display = 'none';
+    absenSec.style.display = 'block';
+    logoutBtn.style.display = 'flex';
+    
+    loadAbsensi(); // Load tabel otomatis saat masuk
+  } else {
+    loginSec.style.display = 'block';
+    absenSec.style.display = 'none';
+    logoutBtn.style.display = 'none';
+    document.getElementById('nim').value = '';
+  }
+}
+
+// --- AUTO CHECK LOGIN ---
+window.onload = function () {
+  const nim = sessionStorage.getItem('nim');
+  if (nim) {
+    updateUI(true);
+  } else {
+    updateUI(false);
+  }
+};
+</script>
