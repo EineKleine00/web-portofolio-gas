@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <?!= include('style'); ?>
+</head>
+<body>
+
+  <div class="container">
+    
+    <div id="loginSection" class="card fade-in">
+      <div class="card-header text-center">
+        <div class="icon-bg"><i class="fa-solid fa-graduation-cap"></i></div>
+        <h2>Portal Mahasiswa</h2>
+        <p>Silakan login menggunakan NIM Anda</p>
+      </div>
+      
+      <div class="form-group">
+        <label>Nomor Induk Mahasiswa</label>
+        <div class="input-icon">
+          <i class="fa-solid fa-id-card"></i>
+          <input type="number" id="nim" placeholder="Contoh: 2023001">
+        </div>
+      </div>
+
+      <button onclick="login()" id="btnLogin">
+        <span>Masuk Aplikasi</span>
+        <div class="loader"></div>
+      </button>
+    </div>
+
+    <div id="appSection" style="display:none;" class="fade-in">
+      
+      <div class="profile-header">
+        <div>
+          <h3 id="welcomeName">Halo, Mahasiswa</h3>
+          <span id="welcomeProdi" class="badge-prodi">Program Studi</span>
+        </div>
+        <button onclick="logout()" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Keluar</button>
+      </div>
+
+      <div class="card">
+        <h4><i class="fa-solid fa-paper-plane"></i> Buat Pengajuan Baru</h4>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Jenis Pengajuan</label>
+            <select id="jenis">
+              <option value="Izin">Izin Tidak Masuk</option>
+              <option value="Sakit">Sakit</option>
+              <option value="Keperluan Akademik">Keperluan Akademik</option>
+              <option value="Dispensasi">Dispensasi Acara</option>
+            </select>
+          </div>
+          <div class="form-group full-width">
+            <label>Keterangan Lengkap</label>
+            <textarea id="ket" placeholder="Jelaskan alasan pengajuan Anda secara detail..."></textarea>
+          </div>
+        </div>
+        <button onclick="kirimPengajuan()" id="btnKirim" class="btn-primary">
+          <span><i class="fa-solid fa-paper-plane"></i> Kirim Pengajuan</span>
+          <div class="loader"></div>
+        </button>
+      </div>
+
+      <div class="card">
+        <h4><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Pengajuan</h4>
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Waktu</th>
+                <th>Jenis</th>
+                <th>Keterangan</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="riwayatBody">
+              <tr><td colspan="4" class="text-center">Memuat data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <?!= include('script'); ?>
+</body>
+</html>
