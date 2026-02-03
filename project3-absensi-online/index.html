@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <title>Portal Absensi</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
+  <?!= include('style'); ?>
+</head>
+<body>
+
+  <nav>
+    <div class="brand">
+      <i class="fa-solid fa-university"></i> Portal Akademik
+    </div>
+    <button id="logoutBtn" onclick="logout()" style="display:none">
+      <i class="fa-solid fa-right-from-bracket"></i> Keluar
+    </button>
+  </nav>
+
+  <div class="container">
+    
+    <div id="loginSection" class="card login-card">
+      <div class="card-header">
+        <h3><i class="fa-solid fa-user-graduate"></i> Login Mahasiswa</h3>
+        <p>Silakan masukkan NIM untuk absensi</p>
+      </div>
+      <div class="form-group">
+        <div class="input-icon">
+          <i class="fa-solid fa-id-card"></i>
+          <input type="number" id="nim" placeholder="Nomor Induk Mahasiswa (NIM)">
+        </div>
+      </div>
+      <button onclick="login()" id="btnLogin" class="btn-primary">
+        <span>Masuk</span> <div class="loader"></div>
+      </button>
+    </div>
+
+    <div id="absensiSection" style="display:none">
+      
+      <div class="welcome-banner">
+        <h4>Halo, <span id="namaMhs" class="highlight">Mahasiswa</span>! 👋</h4>
+        <p><span id="prodiMhs">Informatika</span> &bull; <span id="nimMhs"></span></p>
+      </div>
+
+      <div class="card">
+        <h3><i class="fa-solid fa-pen-to-square"></i> Isi Kehadiran</h3>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Mata Kuliah</label>
+            <div class="input-icon">
+              <i class="fa-solid fa-book"></i>
+              <input type="text" id="makul" placeholder="Contoh: Pemrograman Web">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Status Kehadiran</label>
+            <div class="input-icon">
+              <i class="fa-solid fa-check-circle"></i>
+              <select id="status">
+                <option value="Hadir">🟢 Hadir</option>
+                <option value="Izin">🟡 Izin</option>
+                <option value="Sakit">🔵 Sakit</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button onclick="submitAbsensi()" id="btnSubmit" class="btn-success">
+          <i class="fa-solid fa-paper-plane"></i> Kirim Absensi
+        </button>
+      </div>
+
+      <div class="card table-card">
+        <h3><i class="fa-solid fa-clock-rotate-left"></i> Riwayat Absensi Terkini</h3>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Waktu</th>
+                <th>Nama</th>
+                <th>Makul</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="absensiBody">
+              <tr><td colspan="4" class="text-center">Memuat data...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <?!= include('script'); ?>
+</body>
+</html>
