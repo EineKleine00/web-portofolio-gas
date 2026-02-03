@@ -1,49 +1,47 @@
 <script>
   document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Mencegah reload halaman
+    e.preventDefault(); // Cegah reload
     
-    // Ambil elemen
-    const btn = document.getElementById('btnSubmit');
-    const btnText = btn.querySelector('span');
-    const loader = btn.querySelector('.loader');
-    const statusDiv = document.getElementById('status');
-    const form = this;
-
-    // UI: Ubah jadi Loading
+    var btn = document.getElementById('btnSubmit');
+    var status = document.getElementById('status');
+    var form = this;
+    
+    // Ubah tombol jadi loading
+    btn.textContent = "Mengirim...";
     btn.disabled = true;
-    btnText.textContent = "Mengirim...";
-    loader.style.display = "block";
-    statusDiv.style.display = "none";
-    statusDiv.className = "status-message"; // Reset class
+    status.textContent = "";
 
-    // Ambil Data Form
-    const formData = {
+    // Ambil data form
+    var data = {
       name: form.name.value,
       email: form.email.value,
       message: form.message.value
     };
 
-    // Panggil Backend Google Apps Script (Code.gs)
+    // Panggil Backend
     google.script.run
       .withSuccessHandler(function(response) {
-        // Jika Sukses
+        // Jika Backend Berhasil
+        btn.textContent = "Kirim Pesan";
         btn.disabled = false;
-        btnText.textContent = "Kirim Pesan";
-        loader.style.display = "none";
         
-        statusDiv.textContent = "Pesan berhasil dikirim! Terima kasih.";
-        statusDiv.classList.add("success");
-        form.reset(); // Kosongkan form
+        if (response === "Sukses") {
+           status.style.color = "#4ade80"; // Hijau
+           status.textContent = "✅ Data berhasil masuk ke Sheet!";
+           form.reset();
+        } else {
+           // Jika backend melempar pesan error (misal Sheet ID salah)
+           status.style.color = "#f87171"; // Merah
+           status.textContent = response; 
+        }
       })
       .withFailureHandler(function(error) {
-        // Jika Gagal
+        // Jika Gagal Koneksi Script
+        btn.textContent = "Kirim Pesan";
         btn.disabled = false;
-        btnText.textContent = "Kirim Pesan";
-        loader.style.display = "none";
-        
-        statusDiv.textContent = "Gagal mengirim pesan: " + error.message;
-        statusDiv.classList.add("error");
+        status.style.color = "#f87171";
+        status.textContent = "❌ Gagal koneksi: " + error.message;
       })
-      .processForm(formData); // Pastikan kamu punya fungsi processForm di Code.gs
+      .processForm(data); // <--- INI KUNCINYA (Harus sama dgn Code.gs)
   });
 </script>
