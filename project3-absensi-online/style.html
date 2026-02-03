@@ -1,0 +1,98 @@
+<style>
+  :root {
+    --bg-color: #0F172A;
+    --card-bg: #1E293B;
+    --primary: #38BDF8;
+    --success: #10B981;
+    --danger: #EF4444;
+    --text: #F1F5F9;
+    --text-muted: #94A3B8;
+    --border: #334155;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* Navbar */
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 15px 5%;
+    background: rgba(30, 41, 59, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .brand { font-weight: 600; font-size: 1.2rem; color: var(--primary); }
+  
+  /* Buttons */
+  button {
+    border: none; border-radius: 8px; padding: 10px 20px;
+    font-family: inherit; font-weight: 500; cursor: pointer;
+    transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  #logoutBtn { background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+  #logoutBtn:hover { background: var(--danger); color: white; }
+  
+  .btn-primary { background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; width: 100%; padding: 12px; font-size: 1rem; margin-top: 15px; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); }
+  
+  .btn-success { background: linear-gradient(135deg, #10B981, #059669); color: white; width: 100%; padding: 12px; font-size: 1rem; margin-top: 15px; }
+  .btn-success:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+
+  /* Container & Cards */
+  .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+  .card {
+    background: var(--card-bg); border-radius: 16px; padding: 30px;
+    border: 1px solid var(--border); margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .login-card { max-width: 400px; margin: 50px auto; text-align: center; }
+  
+  h3 { color: var(--text); margin-bottom: 20px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+  .card-header p { color: var(--text-muted); font-size: 0.9rem; }
+
+  /* Welcome Banner */
+  .welcome-banner { margin-bottom: 20px; }
+  .highlight { color: var(--primary); }
+  #prodiMhs { color: var(--text-muted); font-size: 0.9rem; }
+
+  /* Forms */
+  .form-group { margin-bottom: 15px; text-align: left; }
+  .form-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-muted); }
+  .input-icon { position: relative; }
+  .input-icon i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--primary); }
+  
+  input, select {
+    width: 100%; padding: 12px 12px 12px 45px;
+    background: #0F172A; border: 1px solid var(--border);
+    color: white; border-radius: 8px; outline: none; transition: 0.3s;
+  }
+  input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2); }
+
+  /* Table */
+  .table-responsive { overflow-x: auto; }
+  .table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
+  .table th { background: rgba(56, 189, 248, 0.1); color: var(--primary); padding: 12px; text-align: left; border-radius: 6px; }
+  .table td { padding: 12px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+  .table tr:last-child td { border-bottom: none; }
+
+  /* Status Badge */
+  .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+  .bg-hadir { background: rgba(16, 185, 129, 0.1); color: #34D399; }
+  .bg-izin { background: rgba(245, 158, 11, 0.1); color: #FBBF24; }
+  .bg-sakit { background: rgba(59, 130, 246, 0.1); color: #60A5FA; }
+
+  /* Loader */
+  .loader {
+    width: 16px; height: 16px; border: 2px solid white; border-bottom-color: transparent;
+    border-radius: 50%; display: none; animation: spin 1s linear infinite;
+  }
+  @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+  .text-center { text-align: center; }
+</style>
