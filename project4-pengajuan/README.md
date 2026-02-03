@@ -31,7 +31,7 @@ Proyek ini menggunakan pendekatan **Hybrid Database** untuk performa dan kemudah
 
 ---
 
-🔗 **Live Demo:** [Di Sini[]](https://script.google.com/macros/s/AKfycbxUg8GRNEDewFm8wE_picLqRUOXhkuKkc5W3bUETxEn6RlxaXdxdA0EcAb8OChxSyWE/exec)
+🔗 **Live Demo:** [Di Sini](https://script.google.com/macros/s/AKfycbxUg8GRNEDewFm8wE_picLqRUOXhkuKkc5W3bUETxEn6RlxaXdxdA0EcAb8OChxSyWE/exec)
 
 ## 📂 Struktur File
 
