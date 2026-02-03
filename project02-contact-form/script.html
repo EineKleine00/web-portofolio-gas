@@ -1,18 +1,49 @@
 <script>
-const form = document.getElementById('contactForm');
-const statusDiv = document.getElementById('status');
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
-  const data = {
-    name: form.name.value,
-    email: form.email.value,
-    message: form.message.value
-  };
-  google.script.run.withSuccessHandler(function() {
-    statusDiv.innerText = 'Message sent successfully';
-    form.reset();
-  })
-  
-  .submitForm(data);
+  document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Mencegah reload halaman
+    
+    // Ambil elemen
+    const btn = document.getElementById('btnSubmit');
+    const btnText = btn.querySelector('span');
+    const loader = btn.querySelector('.loader');
+    const statusDiv = document.getElementById('status');
+    const form = this;
+
+    // UI: Ubah jadi Loading
+    btn.disabled = true;
+    btnText.textContent = "Mengirim...";
+    loader.style.display = "block";
+    statusDiv.style.display = "none";
+    statusDiv.className = "status-message"; // Reset class
+
+    // Ambil Data Form
+    const formData = {
+      name: form.name.value,
+      email: form.email.value,
+      message: form.message.value
+    };
+
+    // Panggil Backend Google Apps Script (Code.gs)
+    google.script.run
+      .withSuccessHandler(function(response) {
+        // Jika Sukses
+        btn.disabled = false;
+        btnText.textContent = "Kirim Pesan";
+        loader.style.display = "none";
+        
+        statusDiv.textContent = "Pesan berhasil dikirim! Terima kasih.";
+        statusDiv.classList.add("success");
+        form.reset(); // Kosongkan form
+      })
+      .withFailureHandler(function(error) {
+        // Jika Gagal
+        btn.disabled = false;
+        btnText.textContent = "Kirim Pesan";
+        loader.style.display = "none";
+        
+        statusDiv.textContent = "Gagal mengirim pesan: " + error.message;
+        statusDiv.classList.add("error");
+      })
+      .processForm(formData); // Pastikan kamu punya fungsi processForm di Code.gs
   });
 </script>
