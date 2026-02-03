@@ -1,0 +1,155 @@
+<script>
+  let currentUser = null;
+
+  /* --- HELPER: LOADING STATE --- */
+  function setLoading(btnId, isLoading) {
+    const btn = document.getElementById(btnId);
+    const span = btn.querySelector('span');
+    const loader = btn.querySelector('.loader');
+
+    if (isLoading) {
+      btn.disabled = true;
+      if (span) span.style.opacity = '0.5';
+      if (loader) loader.style.display = 'block';
+    } else {
+      btn.disabled = false;
+      if (span) span.style.opacity = '1';
+      if (loader) loader.style.display = 'none';
+    }
+  }
+
+  /* --- LOGIN --- */
+  function login() {
+    const nim = document.getElementById('nim').value.trim();
+    if (!nim) {
+      Swal.fire('Oops!', 'NIM wajib diisi.', 'warning');
+      return;
+    }
+
+    setLoading('btnLogin', true);
+
+    google.script.run
+      .withSuccessHandler(res => {
+        setLoading('btnLogin', false);
+        if (res.status === 'success') {
+          currentUser = res;
+          
+          // Update UI info
+          document.getElementById('welcomeName').innerText = `Halo, ${res.nama}`;
+          document.getElementById('welcomeProdi').innerText = res.prodi;
+          
+          // Switch View
+          document.getElementById('loginSection').style.display = 'none';
+          document.getElementById('appSection').style.display = 'block';
+          
+          // Load Data
+          loadRiwayat();
+          
+          // Toast Notification
+          const Toast = Swal.mixin({
+            toast: true, position: 'top-end', showConfirmButton: false, timer: 3000
+          });
+          Toast.fire({ icon: 'success', title: 'Berhasil Masuk' });
+        } else {
+          Swal.fire('Login Gagal', res.message, 'error');
+        }
+      })
+      .withFailureHandler(err => {
+        setLoading('btnLogin', false);
+        Swal.fire('Error', 'Terjadi kesalahan sistem.', 'error');
+        console.error(err);
+      })
+      .loginMahasiswa(nim);
+  }
+
+  /* --- KIRIM PENGAJUAN --- */
+  function kirimPengajuan() {
+    if (!currentUser) return logout();
+
+    const jenis = document.getElementById('jenis').value;
+    const ket = document.getElementById('ket').value.trim();
+
+    if (!ket) {
+      Swal.fire('Perhatian', 'Mohon isi keterangan pengajuan.', 'warning');
+      return;
+    }
+
+    Swal.fire({
+      title: 'Kirim Pengajuan?',
+      text: "Pastikan data sudah benar.",
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#2563eb',
+      confirmButtonText: 'Ya, Kirim'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setLoading('btnKirim', true);
+        
+        const data = {
+          nim: currentUser.nim,
+          jenis: jenis,
+          keterangan: ket
+        };
+
+        google.script.run
+          .withSuccessHandler(res => {
+            setLoading('btnKirim', false);
+            if (res.status === 'success') {
+              Swal.fire('Terkirim!', res.message, 'success');
+              document.getElementById('ket').value = ''; // Reset Form
+              loadRiwayat(); // Refresh Table
+            } else {
+              Swal.fire('Gagal', res.message, 'error');
+            }
+          })
+          .withFailureHandler(err => {
+            setLoading('btnKirim', false);
+            Swal.fire('Error', 'Gagal mengirim data.', 'error');
+          })
+          .submitPengajuan(data);
+      }
+    });
+  }
+
+  /* --- LOAD RIWAYAT --- */
+  function loadRiwayat() {
+    const tbody = document.getElementById('riwayatBody');
+    tbody.innerHTML = '<tr><td colspan="4" class="text-center">Mengambil data...</td></tr>';
+
+    google.script.run
+      .withSuccessHandler(data => {
+        tbody.innerHTML = '';
+        if (!data || data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" class="text-center text-muted">Belum ada riwayat pengajuan.</td></tr>';
+          return;
+        }
+
+        data.forEach(r => {
+          // Tentukan Class Badge berdasarkan status text
+          let statusClass = 'status-pending';
+          const s = r.status.toLowerCase();
+          if (s.includes('setuju') || s.includes('approved')) statusClass = 'status-approved';
+          if (s.includes('tolak') || s.includes('rejected')) statusClass = 'status-rejected';
+
+          const row = `
+            <tr>
+              <td><small>${r.tanggal}</small></td>
+              <td>${r.jenis}</td>
+              <td>${r.keterangan}</td>
+              <td><span class="status ${statusClass}">${r.status}</span></td>
+            </tr>
+          `;
+          tbody.innerHTML += row;
+        });
+      })
+      .getRiwayatPengajuan(currentUser.nim);
+  }
+
+  /* --- LOGOUT --- */
+  function logout() {
+    currentUser = null;
+    document.getElementById('nim').value = '';
+    document.getElementById('appSection').style.display = 'none';
+    document.getElementById('loginSection').style.display = 'block';
+  }
+</script>
