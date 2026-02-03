@@ -1,18 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <base target="_top">
-  <?!= include('style'); ?>
-</head>
-<body>
-  <h1>Contact Form</h1>
-  <form id="contactForm">
-  <input type="text" name="name" placeholder="Your Name" required />
-  <input type="email" name="email" placeholder="Your Email" required />
-  <textarea name="message" placeholder="Message" required></textarea>
-  <button type="submit">Send</button>
-  </form>
-  <div id="status"></div>
-  <?!= include('script'); ?>
-</body>
+  <head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <?!= include('style'); ?>
+  </head>
+  <body>
+    
+    <div class="container">
+      <div class="contact-card">
+        <div class="card-header">
+          <h2>Hubungi Saya</h2>
+          <p>Punya pertanyaan atau tawaran project? Kirim pesan di bawah ini.</p>
+        </div>
+
+        <form id="contactForm">
+          
+          <div class="input-group">
+            <label for="name">Nama Lengkap</label>
+            <input type="text" id="name" name="name" placeholder="Contoh: Eine Kleine" required />
+          </div>
+
+          <div class="input-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="email@contoh.com" required />
+          </div>
+
+          <div class="input-group">
+            <label for="message">Pesan</label>
+            <textarea id="message" name="message" placeholder="Tulis pesanmu di sini..." rows="4" required></textarea>
+          </div>
+
+          <button type="submit" id="btnSubmit">
+            <span>Kirim Pesan</span>
+            <div class="loader"></div>
+          </button>
+          
+        </form>
+
+        <div id="status" class="status-message"></div>
+      </div>
+    </div>
+
+    <?!= include('script'); ?>
+  </body>
 </html>
